@@ -1,0 +1,43 @@
+{
+    "name":"dbGDSPath",
+    "fields":[
+      {
+        "name":"layer_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"datatype_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"xy_",
+        "type":"std::vector<Point>",
+        "flags":["no-template"]
+      },
+      {
+        "name":"propattr_",
+        "type":"std::vector<std::pair<std::int16_t, std::string>>",
+        "flags":["no-template", "no-get", "no-set"]
+      },
+      {
+        "name":"width_",
+        "default":"0",
+        "type":"int",
+        "flags":[]
+      },
+      {
+        "name":"path_type_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      }
+    ],
+    "h_includes": [
+      "dbGDSStructure.h"
+    ],
+    "cpp_includes": ["odb/dbTypes.h", "odb/geom.h"]
+}

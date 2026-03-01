@@ -1,0 +1,31 @@
+{
+    "name":"dbGDSBox",
+    "fields":[
+      {
+        "name":"layer_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"datatype_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"bounds_",
+        "type":"Rect",
+        "flags":["no-template"]
+      },
+      {
+        "name":"propattr_",
+        "type":"std::vector<std::pair<std::int16_t, std::string>>",
+        "flags":["no-template", "no-get", "no-set"]
+      }
+    ],
+    "h_includes": [
+      "dbGDSStructure.h"
+    ],
+    "cpp_includes": ["odb/dbTypes.h"]
+}

@@ -1,0 +1,54 @@
+{
+  "name": "dbProperty",
+  "type": "dbObject",
+  "hash": "0x66",
+  "do_not_generate_compare" : "true",
+  "fields": [
+    {
+      "name": "type",
+      "type": "PropTypeEnum",
+      "bits": 4,
+      "flags": ["private"]
+    },
+    {
+      "name": "owner_type",
+      "type": "uint32_t",
+      "bits": 8,
+      "flags": ["private"]
+    },
+    {
+      "name": "name_",
+      "type": "uint32_t",
+      "flags": ["private", "no-destruct"]
+    },
+    {
+      "name": "next_",
+      "type": "dbId<_dbProperty>",
+      "flags": ["private", "no-get"]
+    },
+    {
+      "name": "owner_",
+      "type": "uint32_t",
+      "default": "0",
+      "flags": ["private", "no-cmp"]
+    },
+    {
+      "name": "value_",
+      "type": "std::variant<std::string, bool, int, double>",
+      "flags": ["private","no-template", "no-serial"]
+    }
+  ],
+  "h_includes": [
+    "odb/dbTypes.h",
+    "odb/dbId.h"
+  ],
+  "cpp_includes": [
+    "dbNameCache.h",
+    "dbPropertyItr.h",
+    "dbBlock.h",
+    "dbChip.h",
+    "dbLib.h",
+    "dbName.h",
+    "dbTech.h"
+  ]
+} 

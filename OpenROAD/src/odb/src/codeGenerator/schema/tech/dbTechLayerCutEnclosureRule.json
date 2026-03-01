@@ -1,0 +1,213 @@
+{
+  "name": "dbTechLayerCutEnclosureRule",
+  "type": "dbObject",
+  "fields": [
+    {
+      "name": "type",
+      "type": "uint32_t",
+      "flags": [
+        "no-set",
+        "no-get"
+      ],
+      "bits": 2
+    },
+    {
+      "type": "bit",
+      "name": "cut_class_valid"
+    },
+    {
+      "type": "dbId<_dbTechLayerCutClassRule>",
+      "name": "cut_class_",
+      "parent": "dbTechLayer"
+    },
+    {
+      "type": "bit",
+      "name": "above"
+    },
+    {
+      "type": "bit",
+      "name": "below"
+    },
+    {
+      "name":"eol_width_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"eol_min_length_valid",
+      "type":"bit"
+    },
+    {
+      "name":"eol_min_length_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"eol_only",
+      "type":"bit"
+    },
+    {
+      "name":"short_edge_on_eol",
+      "type":"bit"
+    },
+    {
+      "name":"first_overhang_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"second_overhang_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"side_spacing_valid",
+      "type":"bit"
+    },
+    {
+      "name":"end_spacing_valid",
+      "type":"bit"
+    },
+    {
+      "name":"spacing_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"extension_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"forward_extension_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"backward_extension_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"off_center_line",
+      "type":"bit"
+    },
+    {
+      "name":"width_valid",
+      "type":"bit"
+    },
+    {
+      "name":"min_width_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"include_abutted",
+      "type":"bit"
+    },
+    {
+      "name":"except_extra_cut",
+      "type":"bit"
+    },
+    {
+      "name":"cut_within_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"prl",
+      "type":"bit"
+    },
+    {
+      "name":"no_shared_edge",
+      "type":"bit"
+    },
+    {
+      "name":"length_valid",
+      "type":"bit"
+    },
+    {
+      "name":"min_length_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"extra_cut_valid",
+      "type":"bit"
+    },
+    {
+      "name":"extra_only",
+      "type":"bit"
+    },
+    {
+      "name":"redundant_cut_valid",
+      "type":"bit"
+    },
+    {
+      "name":"parallel_valid",
+      "type":"bit"
+    },
+    {
+      "name":"second_parallel_valid",
+      "type":"bit"
+    },
+    {
+      "name":"par_length_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"second_par_length_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"par_within_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"second_par_within_valid",
+      "type":"bit"
+    },
+    {
+      "name":"second_par_within_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"below_enclosure_valid",
+      "type":"bit"
+    },
+    {
+      "name":"below_enclosure_",
+      "type":"int",
+      "default": 0
+    },
+    {
+      "name":"concave_corners_valid",
+      "type":"bit"
+    },
+    {
+      "name":"num_corners_",
+      "type":"uint32_t",
+      "default": 0
+    }
+  ],
+  "enums":[
+      {
+          "name":"ENC_TYPE",
+          "public": true,
+          "values":[
+              "DEFAULT",
+              "EOL",
+              "ENDSIDE",
+              "HORZ_AND_VERT"
+          ]
+      }
+  ],
+  "cpp_includes": [
+    "dbTechLayer.h",
+    "dbTechLayerCutClassRule.h"
+  ]
+}

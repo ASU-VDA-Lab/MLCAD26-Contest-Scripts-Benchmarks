@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020-2025, The OpenROAD Authors
+
+#include "db_sta/dbSta.hh"
+#include "odb/db.h"
+#include "tcl.h"
+#include "utl/Logger.h"
+
+namespace gui {
+
+// There is no make/delete GUI as it is created at startup and can't
+// be deleted.
+
+void initGui(Tcl_Interp* interp,
+             odb::dbDatabase* db,
+             sta::dbSta* sta,
+             utl::Logger* logger);
+
+}  // namespace gui

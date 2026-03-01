@@ -1,0 +1,35 @@
+name: Build Posix Bazel
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  build-posix-bazel:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Linux dependencies
+      run: |
+        sudo apt install -y libreadline-dev
+        wget https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 -O bazelisk
+        chmod +x bazelisk
+        sudo mv bazelisk /usr/bin
+
+    - name: Build abc
+      run: |
+        bazelisk build //...
+
+    - name: Test Executable
+      run: |
+        bazel-bin/abc -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
+
+    - name: Test Library
+      run: |
+        bazel-bin/demo i10.aig

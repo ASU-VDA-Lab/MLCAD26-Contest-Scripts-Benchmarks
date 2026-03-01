@@ -1,0 +1,111 @@
+// OpenSTA, Static Timing Analyzer
+// Copyright (c) 2025, Parallax Software, Inc.
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+// 
+// The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software.
+// 
+// Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 
+// This notice may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include "GraphClass.hh"
+#include "SearchClass.hh"
+#include "SdcClass.hh"
+#include "StaState.hh"
+
+namespace sta {
+
+enum class LatchEnableState { enabled, open, closed };
+
+// Latches class defines latch behavior.
+class Latches : public StaState
+{
+public:
+  Latches(StaState *sta);
+  void latchTimeGivenToStartpoint(const Path *d_path,
+                                  const Path *q_path,
+                                  const Edge *d_q_edge,
+                                  // Return values.
+                                  Arrival &time_given,
+                                  Path *&enable_path) const;
+  void latchRequired(const Path *data_path,
+                     const Path *enable_path,
+                     const Path *disable_path,
+                     const MultiCyclePath *mcp,
+                     const PathDelay *path_delay,
+                     Arrival src_clk_latency,
+                     const ArcDelay &margin,
+                     // Return values.
+                     Required &required,
+                     Delay &borrow,
+                     Arrival &adjusted_data_arrival,
+                     Delay &time_given_to_startpoint) const;
+  void latchBorrowInfo(const Path *data_path,
+                       const Path *enable_path,
+                       const Path *disable_path,
+                       const ArcDelay &margin,
+                       bool ignore_clk_latency,
+                       // Return values.
+                       float &nom_pulse_width,
+                       Delay &open_latency,
+                       Delay &latency_diff,
+                       float &open_uncertainty,
+                       Crpr &open_crpr,
+                       Crpr &crpr_diff,
+                       Delay &max_borrow,
+                       bool &borrow_limit_exists) const;
+  bool isLatchDtoQ(const Edge *edge,
+                   const Mode *mode) const;
+  // Find the latch EN->Q edge for a D->Q edge.
+  void latchDtoQEnable(const Edge *d_q_edge,
+                       const Instance *inst,
+                       const Mode *mode,
+                       // Return values.
+                       Vertex *&enable_vertex,
+                       const RiseFall *&enable_rf,
+                       LatchEnableState &state) const;
+  LatchEnableState latchDtoQState(const Edge *d_q_edge,
+                                  const Mode *mode) const;
+  Path *latchEnableOtherPath(const Path *path) const;
+  Path *latchEnablePath(const Path *q_path,
+                       const Edge *d_q_edge) const;
+  void latchOutArrival(const Path *data_path,
+                       const TimingArc *d_q_arc,
+                       const Edge *d_q_edge,
+                       Tag *&q_tag,
+                       ArcDelay &arc_delay,
+                       Arrival &q_arrival);
+
+protected:
+  void latchRequired(const Path *data_path,
+                     const Path *enable_path,
+                     const Path *disable_path,
+                     // Return values.
+                     Required &required,
+                     Delay &borrow,
+                     Arrival &adjusted_data_arrival,
+                     Delay &time_given_to_startpoint) const;
+  ArcDelay latchSetupMargin(Vertex *data_vertex,
+                            const RiseFall *data_rf,
+                            const Path *disable_path) const;
+  ExceptionPath *exceptionTo(const Path *data_path,
+                             const ClockEdge *en_clk_edge);
+};
+
+} // namespace

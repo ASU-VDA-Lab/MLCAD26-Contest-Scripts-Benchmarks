@@ -1,0 +1,45 @@
+{
+    "name":"dbGDSText",
+    "fields":[
+      {
+        "name":"layer_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"datatype_",
+        "type":"int16_t",
+        "default":"0",
+        "flags":[]
+      },
+      {
+        "name":"origin_",
+        "type":"Point"
+      },
+      {
+        "name":"propattr_",
+        "type":"std::vector<std::pair<std::int16_t, std::string>>",
+        "flags":["no-template", "no-get", "no-set"]
+      },
+      {
+        "name":"presentation_",
+        "type":"dbGDSTextPres",
+        "flags":[]
+      },
+      {
+        "name":"transform_",
+        "type":"dbGDSSTrans",
+        "flags":[]
+      },
+      {
+        "name":"text_",
+        "type":"std::string",
+        "flags":[]
+      }
+    ],
+    "h_includes": [
+      "dbGDSStructure.h"
+    ],
+    "cpp_includes": ["odb/dbTypes.h"]
+}

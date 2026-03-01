@@ -1,0 +1,54 @@
+{
+  "name": "dbChipInst",
+  "type": "dbObject",
+  "fields": [
+    {
+      "name": "name_",
+      "type": "std::string",
+      "flags":["cmpgt", "no-set"]
+    },
+    {
+      "name": "origin_",
+      "type": "Point3D",
+      "flags":["cmpgt", "private"]
+    },
+    {
+      "name": "orient_",
+      "type": "dbOrientType3D",
+      "flags": ["no-set"]
+    },
+    {
+      "name": "master_chip_",
+      "type": "dbId<_dbChip>",
+      "flags": ["no-set"],
+      "parent" : "dbDatabase"
+    },
+    {
+      "name": "parent_chip_",
+      "type": "dbId<_dbChip>",
+      "flags": ["no-set"],
+      "parent":"dbDatabase"
+    },
+    {
+      "name":"chipinst_next_",
+      "type":"dbId<_dbChipInst>",
+      "flags":["private"]
+    },
+    {
+      "name":"chip_region_insts_",
+      "type":"dbId<_dbChipRegionInst>",
+      "flags":["private"],
+      "schema":"kSchemaChipRegion"
+    },
+    {
+      "name":"region_insts_map_",
+      "type":"std::unordered_map<dbId<_dbChipRegion>, dbId<_dbChipRegionInst>>",
+      "flags":["private", "no-serial", "no-template"]
+    }
+  ],
+  "h_includes": [
+    "odb/geom.h",
+    "odb/dbTypes.h"
+  ],
+  "cpp_includes": []
+}

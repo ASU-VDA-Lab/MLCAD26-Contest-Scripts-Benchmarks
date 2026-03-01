@@ -1,0 +1,92 @@
+// OpenSTA, Static Timing Analyzer
+// Copyright (c) 2025, Parallax Software, Inc.
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+// 
+// The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software.
+// 
+// Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 
+// This notice may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include "ArcDelayCalc.hh"
+
+namespace sta {
+
+class GateTableModel;
+
+// ArcDelayCalc helper functions.
+class DelayCalcBase : public ArcDelayCalc
+{
+public:
+  DelayCalcBase(StaState *sta);
+  void finishDrvrPin() override;
+
+  void reduceParasitic(const Parasitic *parasitic_network,
+                       const Net *net,
+                       const Scene *scene,
+                       const MinMaxAll *min_max) override;
+  void setDcalcArgParasiticSlew(ArcDcalcArg &gate,
+                                const Scene *scene,
+                                const MinMax *min_max) override;
+  void setDcalcArgParasiticSlew(ArcDcalcArgSeq &gates,
+                                const Scene *scene,
+                                const MinMax *min_max) override;
+  ArcDelay checkDelay(const Pin *check_pin,
+                      const TimingArc *arc,
+                      const Slew &from_slew,
+                      const Slew &to_slew,
+                      float related_out_cap,
+                      const Scene *scene,
+                      const MinMax *min_max) override;
+  
+  std::string reportCheckDelay(const Pin *check_pin,
+                               const TimingArc *arc,
+                               const Slew &from_slew,
+                               const char *from_slew_annotation,
+                               const Slew &to_slew,
+                               float related_out_cap,
+                               const Scene *scene,
+                               const MinMax *min_max,
+                               int digits) override;
+
+protected:
+  // Find the liberty library to use for logic/slew thresholds.
+  LibertyLibrary *thresholdLibrary(const Pin *load_pin);
+  // Adjust load_delay and load_slew from driver thresholds to load thresholds.
+  void thresholdAdjust(const Pin *load_pin,
+                       const LibertyLibrary *drvr_library,
+                       const RiseFall *rf,
+                       ArcDelay &load_delay,
+                       Slew &load_slew);
+  // Helper function for input ports driving dspf parasitic.
+  void dspfWireDelaySlew(const Pin *load_pin,
+                         const RiseFall *rf,
+                         Slew drvr_slew,
+                         float elmore,
+                         // Return values.
+                         ArcDelay &wire_delay,
+                         Slew &load_slew);
+  const Pvt *pinPvt(const Pin *pin,
+                    const Scene *scene,
+                    const MinMax *min_max);
+
+  using ArcDelayCalc::reduceParasitic;
+};
+
+} // namespace

@@ -1,0 +1,136 @@
+# OpenSTA, Static Timing Analyzer
+# Copyright (c) 2025, Parallax Software, Inc.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# 
+# The origin of this software must not be misrepresented; you must not
+# claim that you wrote the original software.
+# 
+# Altered source versions must be plainly marked as such, and must not be
+# misrepresented as being the original software.
+# 
+# This notice may not be removed or altered from any source distribution.
+
+namespace eval sta {
+
+define_cmd_args "read_spef" \
+  {[-name spef_name]
+   [-corner corner]\
+     [-min]\
+     [-max]\
+     [-path path]\
+     [-pin_cap_included]\
+     [-keep_capacitive_coupling]\
+     [-coupling_reduction_factor factor]\
+     [-reduce]\
+     filename}
+
+# -scene/-min/-max are for compatibilty, Deprecated 11/21/2025
+proc_redirect read_spef {
+  parse_key_args "read_spef" args \
+    keys {-name -path -coupling_reduction_factor -corner} \
+    flags {-min -max -increment -pin_cap_included -keep_capacitive_coupling -reduce}
+
+  check_argc_eq1 "read_spef" $args
+  set name ""
+  if [info exists keys(-name)] {
+    set name $keys(-name)
+  }
+  set instance [top_instance]
+  if [info exists keys(-path)] {
+    set path $keys(-path)
+    set instance [find_instance $path]
+    if { $instance == "NULL" } {
+      sta_error 276 "path instance '$path' not found."
+    }
+  }
+  set scene [parse_scene_or_null keys]
+  set min_max [parse_min_max_all_flags flags]
+  set coupling_reduction_factor 1.0
+  if [info exists keys(-coupling_reduction_factor)] {
+    set coupling_reduction_factor $keys(-coupling_reduction_factor)
+    check_positive_float "-coupling_reduction_factor" $coupling_reduction_factor
+  }
+  set keep_coupling_caps [info exists flags(-keep_capacitive_coupling)]
+  set pin_cap_included [info exists flags(-pin_cap_included)]
+  set reduce [info exists flags(-reduce)]
+
+  set filename [file nativename [lindex $args 0]]
+  return [read_spef_cmd $name $filename $instance $scene $min_max \
+            $pin_cap_included $keep_coupling_caps \
+            $coupling_reduction_factor $reduce]
+}
+
+define_cmd_args "report_parasitic_annotation" {[-name spef_name]\
+                                               [-report_unannotated]}
+
+proc_redirect report_parasitic_annotation {
+  parse_key_args "report_parasitic_annotation" args \
+    keys {-name} flags {-report_unannotated}
+  check_argc_eq0 "report_parasitic_annotation" $args
+
+  set spef_name ""
+  if { [info exists keys(-name)] } {
+    set spef_name $keys(-name)
+  }
+  set report_unannotated [info exists flags(-report_unannotated)]
+  report_parasitic_annotation_cmd $spef_name $report_unannotated
+}
+
+# set_pi_model [-min] [-max] drvr_pin c2 rpi c1
+proc set_pi_model { args } {
+  parse_key_args "set_pi_model" args keys {} flags {-max -min}
+  check_argc_eq4 "set_pi_model" $args
+
+  set drvr_pin_name [lindex $args 0]
+
+  set c2 [lindex $args 1]
+  check_positive_float "c2" $c2
+  set c2 [capacitance_ui_sta $c2]
+
+  set rpi [lindex $args 2]
+  check_positive_float "Rpi" $rpi
+  set rpi [resistance_ui_sta $rpi]
+
+  set c1 [lindex $args 3]
+  check_positive_float "c1" $c1
+  set c1 [capacitance_ui_sta $c1]
+
+  set min_max [parse_min_max_all_check_flags flags]
+
+  set drvr_pin [get_port_pin_error "drvr_pin" $drvr_pin_name]
+  set_pi_model_cmd $drvr_pin "rise" $min_max $c2 $rpi $c1
+  set_pi_model_cmd $drvr_pin "fall" $min_max $c2 $rpi $c1
+}
+
+# set_elmore [-min] [-max] drvr_pin_name load_pin_name elmore
+proc set_elmore { args } {
+  parse_key_args "set_elmore" args keys {} flags {-min -max}
+  check_argc_eq3  "set_elmore" $args
+
+  set drvr_pin_arg [lindex $args 0]
+  set drvr_pin [get_port_pin_error "drvr_pin" $drvr_pin_arg]
+  set load_pin_arg [lindex $args 1]
+  set load_pin [get_port_pin_error "load_pin" $load_pin_arg]
+  set elmore [lindex $args 2]
+  check_positive_float "elmore delay" $elmore
+  set elmore [time_ui_sta $elmore]
+  set min_max [parse_min_max_all_check_flags flags]
+
+  set_elmore_cmd $drvr_pin $load_pin "rise" $min_max $elmore
+  set_elmore_cmd $drvr_pin $load_pin "fall" $min_max $elmore
+}
+
+# sta namespace end
+}

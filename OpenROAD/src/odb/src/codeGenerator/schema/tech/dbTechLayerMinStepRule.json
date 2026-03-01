@@ -1,0 +1,79 @@
+{
+  "name": "dbTechLayerMinStepRule",
+  "type": "dbObject",
+  "fields": [
+    {
+      "type": "int",
+      "name": "min_step_length_",
+      "default": 0
+    },
+    {
+      "type": "uint32_t",
+      "name": "max_edges_",
+      "default": 0
+    },
+    {
+      "type": "bit",
+      "name": "max_edges_valid"
+    },
+    {
+      "type": "int",
+      "name": "min_adj_length1_",
+      "default": 0
+    },
+    {
+      "type": "bit",
+      "name": "min_adj_length1_valid"
+    },
+    {
+      "type": "int",
+      "name": "min_adj_length2_",
+      "default": 0
+    },
+    {
+      "type": "int",
+      "name": "eol_width_",
+      "default": 0
+    },
+    {
+      "type": "bit",
+      "name": "no_between_eol"
+    },
+    {
+      "type": "bit",
+      "name": "min_adj_length2_valid"
+    },
+    {
+      "type": "bit",
+      "name": "convex_corner"
+    },
+    {
+      "type": "int",
+      "name": "min_between_length_",
+      "default": 0
+    },
+    {
+      "type": "bit",
+      "name": "min_between_length_valid"
+    },
+    {
+      "type": "bit",
+      "name": "except_same_corners"
+    },
+    {
+      "type": "bit",
+      "name": "concave_corner"
+    },
+    {
+      "type": "bit",
+      "name": "except_rectangle"
+    },
+    {
+      "type": "bit",
+      "name": "no_adjacent_eol"
+    }
+  ],
+  "cpp_includes": [
+    "dbTechLayer.h"
+  ]
+}

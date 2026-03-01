@@ -1,0 +1,185 @@
+// OpenSTA, Static Timing Analyzer
+// Copyright (c) 2025, Parallax Software, Inc.
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+// 
+// The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software.
+// 
+// Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 
+// This notice may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include "Transition.hh"
+#include "SdcClass.hh"
+#include "SearchClass.hh"
+#include "Path.hh"
+#include "Scene.hh"
+
+namespace sta {
+
+// Tags are used to distinguish multiple paths that hold
+// arrival/required times on a vertex.
+//
+// Each tag corresponds to a different path on the vertex thru a
+// set of exceptions.
+//
+// Clock paths are distinguished from non-clock paths using separate
+// tags. This is because clocks pins can also have input arrivals wrt
+// other clocks.
+//
+// When common clock reconvergence pessimism removal is enabled the
+// tag ClkInfo includes the last clock driver pin so that distinct
+// paths are used for paths from different sources of min/max clock
+// arrivals.
+
+class Tag
+{
+public:
+  Tag(Scene *scene,
+      TagIndex index,
+      const RiseFall *rf,
+      const MinMax *min_max,
+      const ClkInfo *clk_info,
+      bool is_clk,
+      InputDelay *input_delay,
+      bool is_segment_start,
+      ExceptionStateSet *states,
+      bool own_states);
+  ~Tag();
+  std::string to_string(const StaState *sta) const;
+  std::string to_string(bool report_index,
+                        bool report_rf_min_max,
+                        const StaState *sta) const;
+  Scene *scene() const { return scene_; }
+  const ClkInfo *clkInfo() const { return clk_info_; }
+  bool isClock() const { return is_clk_; }
+  const ClockEdge *clkEdge() const;
+  const Clock *clock() const;
+  const Pin *clkSrc() const;
+  int rfIndex() const { return rf_index_; }
+  const RiseFall *transition() const;
+  const MinMax *minMax() const;
+  int minMaxIndex() const { return min_max_index_; }
+  TagIndex index() const { return index_; }
+  ExceptionStateSet *states() const { return states_; }
+  void setStates(ExceptionStateSet *states);
+  bool isGenClkSrcPath() const;
+  const Clock *genClkSrcPathClk() const;
+  // Input delay at search startpoint (not propagated).
+  InputDelay *inputDelay() const { return input_delay_; }
+  bool isLoop() const { return is_loop_; }
+  bool isFilter() const { return is_filter_; }
+  bool isSegmentStart() const { return is_segment_start_; }
+  size_t hash(bool match_crpr_clk_pin,
+              const StaState *sta) const;
+  size_t matchHash(bool match_crpr_clk_pin,
+                   const StaState *sta) const;
+
+  static int cmp(const Tag *tag1,
+                 const Tag *tag2,
+                 const StaState *sta);
+  static int matchCmp(const Tag *tag1,
+                      const Tag *tag2,
+                      bool match_clk_clk_pin,
+                      const StaState *sta);
+  static bool match(const Tag *tag1,
+                    const Tag *tag2,
+                    bool match_crpr_clk_pin,
+                    const StaState *sta);
+  static bool equal(const Tag *tag1,
+                    const Tag *tag2,
+                    const StaState *sta);
+  static bool matchNoPathAp(const Tag *tag1,
+                            const Tag *tag2);
+  static bool matchCrpr(const Tag *tag1,
+                        const Tag *tag2);
+  static bool matchNoCrpr(const Tag *tag1,
+                          const Tag *tag2);
+
+protected:
+  void findHash();
+
+  // Match tag clock edge, clock driver and exception states but not clk info.
+  static bool match(const Tag *tag1,
+                    const Tag *tag2,
+                    const StaState *sta);
+  static bool stateEqual(const Tag *tag1,
+                         const Tag *tag2);
+  static int stateCmp(const Tag *tag1,
+                      const Tag *tag2);
+  static bool stateEqualCrpr(const Tag *tag1,
+                             const Tag *tag2);
+
+private:
+  Scene *scene_;
+  const ClkInfo *clk_info_;
+  InputDelay *input_delay_;
+  ExceptionStateSet *states_;
+  size_t hash_;
+  size_t match_hash_;
+  TagIndex index_;
+  bool is_clk_:1;
+  bool is_filter_:1;
+  bool is_loop_:1;
+  bool is_segment_start_:1;
+  // Indicates that states_ is owned by the tag.
+  bool own_states_:1;
+  unsigned int rf_index_:RiseFall::index_bit_count;
+  unsigned int min_max_index_:MinMax::index_bit_count;
+};
+
+class TagLess
+{
+public:
+  TagLess(const StaState *sta);
+  bool operator()(const Tag *tag1,
+                  const Tag *tag2) const;
+
+private:
+  const StaState *sta_;
+};
+
+class TagIndexLess
+{
+public:
+  bool operator()(const Tag *tag1,
+                  const Tag *tag2) const;
+};
+
+class TagHash
+{
+public:
+  TagHash(const StaState *sta);
+  size_t operator()(const Tag *tag) const;
+
+private:
+  const StaState *sta_;
+};
+
+class TagEqual
+{
+public:
+  TagEqual(const StaState *sta);
+  bool operator()(const Tag *tag1,
+                  const Tag *tag2) const;
+
+private:
+  const StaState *sta_;
+};
+
+} // namespace

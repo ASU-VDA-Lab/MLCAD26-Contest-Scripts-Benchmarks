@@ -1,0 +1,56 @@
+{
+  "name": "dbTechLayerEolKeepOutRule",
+  "type": "dbObject",
+  "fields": [
+    {
+      "type": "int",
+      "name": "eol_width_",
+      "default": 0
+    },
+    {
+      "type": "int",
+      "name": "backward_ext_",
+      "default": 0
+    },
+    {
+      "type": "int",
+      "name": "forward_ext_",
+      "default": 0
+    },
+    {
+      "type": "int",
+      "name": "side_ext_",
+      "default": 0
+    },
+    {
+      "type": "bit",
+      "name": "class_valid"
+    },
+    {
+      "type": "bit",
+      "name": "corner_only"
+    },
+    {
+      "type": "bit",
+      "name": "except_within"
+    },
+    {
+      "type": "int",
+      "name": "within_low_",
+      "default": 0
+    },
+    {
+      "type": "int",
+      "name": "within_high_",
+      "default": 0
+    },
+    {
+      "type": "std::string",
+      "name": "class_name_",
+      "default": "\"\""
+    }
+  ],
+  "cpp_includes": [
+    "dbTechLayer.h"
+  ]
+}

@@ -1,0 +1,15 @@
+[INFO ODB-0227] LEF file: Nangate45/Nangate45.lef, created 22 layers, 27 vias, 135 library cells
+[INFO ODB-0227] LEF file: Nangate45/fake_macros.lef, created 10 library cells
+[WARNING ORD-2011] LEF master MOCK_HYBRID_A has no liberty cell.
+[WARNING ORD-2011] LEF master MOCK_HYBRID_AG has no liberty cell.
+[WARNING ORD-2011] LEF master MOCK_HYBRID_G has no liberty cell.
+[WARNING IFP-0028] Core area lower left (100.000, 100.000) snapped to (100.130, 102.400).
+[INFO IFP-0049] Added 560 rows from site HybridAG row pattern.
+[INFO IFP-0050] Added 280 rows of site HybridAG.
+[INFO IFP-0100] Die BBox:  (  0.000  0.000 ) ( 1100.000 1100.000 ) um
+[INFO IFP-0101] Core BBox: ( 100.130 102.400 ) ( 999.970 998.400 ) um
+[INFO IFP-0102] Core area:                       806256.640 um^2
+[INFO IFP-0103] Total instances area:                 2.090 um^2
+[INFO IFP-0104] Effective utilization:                0.000
+[INFO IFP-0105] Number of instances:                      5
+No differences found.

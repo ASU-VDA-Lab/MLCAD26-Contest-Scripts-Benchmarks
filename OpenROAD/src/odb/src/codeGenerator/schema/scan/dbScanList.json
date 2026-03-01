@@ -1,0 +1,35 @@
+{
+  "name": "dbScanList",
+  "type": "dbObject",
+  "description": [
+    "A scan list is a collection of dbScanInsts in a particular order that must be",
+    "respected when performing scan reordering and repartitioning. For ScanList with",
+    "two or more elements we say that they are ORDERED. If the ScanList contains only",
+    "one element then they are FLOATING elements that don't have any restriccion when",
+    "optimizing the scan chain."],
+  "cpp_includes": [
+    "dbScanChain.h",
+    "dbScanPartition.h",
+    "dbDft.h",
+    "dbScanListScanInstItr.h"],
+  "fields": [
+    {
+      "name": "unused_",
+      "type": "uint32_t",
+      "flags": [
+        "private"
+      ],
+      "default": 0,
+      "comment": "// As the elements of a free dbTable are 12 bytes long, we need this additional member in order to make _dbScanList big enough to allow safe casting between table members.",
+      "schema": "kSchemaBlockOwnsScanInsts"
+    },
+    {
+      "name": "first_scan_inst_",
+      "type": "dbId<_dbScanInst>",
+      "flags": [
+        "private"
+      ],
+      "schema": "kSchemaBlockOwnsScanInsts"
+    }
+  ]
+}

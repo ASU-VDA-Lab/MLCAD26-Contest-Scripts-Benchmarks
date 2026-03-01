@@ -1,0 +1,47 @@
+{
+    "name":"dbGDSARef",
+    "fields":[
+      {
+        "name":"origin_",
+        "type":"Point"
+      },
+      {
+        "name":"lr_",
+        "type":"Point"
+      },
+      {
+        "name":"ul_",
+        "type":"Point"
+      },
+      {
+        "name":"propattr_",
+        "type":"std::vector<std::pair<std::int16_t, std::string>>",
+        "flags":["no-template", "no-get", "no-set"]
+      },
+      {
+        "name":"transform_",
+        "type":"dbGDSSTrans",
+        "flags":[]
+      },
+      {
+        "name":"num_rows_",
+        "type":"int16_t",
+        "default":"1"
+      },
+      {
+        "name":"num_columns_",
+        "type":"int16_t",
+        "default":"1"
+      },
+      {
+        "name":"structure_",
+        "type":"dbId<_dbGDSStructure>",
+        "parent":"dbGDSStructure",
+        "flags":["no-get", "no-set"]
+      }
+    ],
+    "h_includes": [
+      "dbGDSStructure.h"
+    ],
+    "cpp_includes": ["odb/dbTypes.h"]
+}
