@@ -25,8 +25,8 @@ proc is_placement_legal {} {
 }
 
 # ================== (1) read tech, libs, DEF, netlist, link ==================
-foreach lef_file ${lefs}    { read_lef     $lef_file }
-foreach lib_file ${libbest} { read_liberty $lib_file }
+#foreach lef_file ${lefs}    { read_lef     $lef_file }
+#foreach lib_file ${libbest} { read_liberty $lib_file }
 
 
 puts $def_file 
@@ -36,6 +36,7 @@ puts $sdc_file
 
 read_def      $def_file
 read_verilog  $verilog_netlist
+
 read_sdc $sdc_file
 
 #set_propagated_clock [get_clocks *]
@@ -95,7 +96,6 @@ report_wns
 report_power
 puts "report_tns"
 
-exit
 # ---- global routing overflow -----
 puts "Start Global Routing Results Analysis ..."
 set block [ord::get_db_block]
