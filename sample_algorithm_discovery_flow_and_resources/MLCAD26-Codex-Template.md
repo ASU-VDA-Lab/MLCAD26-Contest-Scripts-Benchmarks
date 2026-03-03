@@ -1,7 +1,6 @@
 # Algorithm Discovery with CLI-Based LLM Agents
 
-> **Template Purpose:** This is a general-purpose starting template for using a CLI-accessible LLM (e.g., OpenAI Codex CLI, Claude Code, or any agentic CLI tool) to perform iterative algorithm discovery. Adapt the specifics to your own tool, EDA flow, simulator, or evaluation harness.
-
+> **Template Purpose:** This is a general-purpose starting template for using a CLI-accessible LLM (e.g., OpenAI Codex CLI, Claude Code, or any agentic CLI tool) to perform iterative algorithm discovery. Adapt the specifics to your own flow for algorithm discovery for timing optimization.
 ---
 
 ## Overview
@@ -25,13 +24,14 @@ Algorithm discovery via an LLM agent follows a simple iterative loop:
 
 Each iteration, the agent:
 1. Reads its instructions and the current state (metrics, prior attempts, diagrams)
-2. Generates or modifies algorithm code
-3. Builds and runs the evaluation tool
+2. Generates or modifies algorithm code (you can modify resizer tool code)
+3. Builds and runs the evaluation tool (this is the evaluation scripts provided for the contest)
 4. Receives the results and decides whether to continue or terminate
 
 ---
 
 ## Sample Repository Structure
+
 
 ```
 MLCAD2026_Contest/
@@ -48,7 +48,7 @@ MLCAD2026_Contest/
 | 
 ├── results/                    # Evaluation outputs, logs, diagrams
 └── scripts/
-    ├── buildOpenROAD.sh        # Build script for your tool/simulator
+    ├── buildOpenROAD.sh        # Build script for your tool that you write out to compile new C++ code that is generated.
     └── evaluate_new_solution.sh             # Run evaluation script and collect metrics
    
 ```
@@ -57,7 +57,7 @@ MLCAD2026_Contest/
 
 ## The Agent Instruction File (`AGENTS.md`)
 
-This file is the central document the agent reads at the start of each iteration. Structure it clearly so the agent understands what to do, what tools it has, and when to stop.
+This file is the central document the agent reads at the start of each iteration. Structure it clearly so the agent understands what to do, what tools it has, and when to stop. Below, we provide an example for evolving the resizer code of OpenROAD. 
 
 ```markdown
 # Agent Instructions
@@ -108,7 +108,7 @@ After a successful build, run the evaluator:
 bash scripts/evaluate_new_solution.sh <candidate_name>
 
 Results should be written to `results/<candidate_name>/METRIC_LOG.txt` 
-Read the results and changes that you made carefully by reading logs before deciding on your next action.
+Read the results and the changes you made carefully, based on the logs, before deciding on your next action.
 
 ---
 
@@ -124,7 +124,7 @@ Read the results and changes that you made carefully by reading logs before deci
 
 ## 6. Termination Criteria
 
-Stop iterating (exit with code 0) when **any** of the following are met:
+Example stop iterating (exit with code 0) when **any** of the following are met:
 
 - [ ] The target metric has improved by ≥ **X%** over the baseline.
 - [ ] You have generated **N** candidates without improvement.
@@ -233,5 +233,5 @@ Consider including in your `evaluate_new_solution.sh`
 
 ---
 
-*This template is intentionally tool-agnostic. The core idea — an agent reads instructions, generates code, runs an evaluator, and feeds results back — applies to any LLM CLI tool and any build/evaluation harness.*
+*This template is intentionally CLI agnostic. The core idea — an agent reads instructions, generates code, builds the new timing optimizer, runs an evaluator, and feeds results back — applies to any LLM CLI tool and runs the evaluation script provided.*
 ---- 
