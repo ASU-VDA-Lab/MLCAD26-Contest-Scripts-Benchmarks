@@ -70,7 +70,7 @@ Read all sections below in order before taking any action. Do not skip sections.
 ## 1. Context & Goal
 
 **Task:**  
-[Describe the algorithm discovery task in one paragraph. What problem are you solving? What metric are you optimizing?]
+[You are optimizing OpenROAD resizer module to increase/decrease or improve <metric> ?]
 
 **Example:**
 > You are discovering improved timing algorithms for physical design. The goal is to minimize
