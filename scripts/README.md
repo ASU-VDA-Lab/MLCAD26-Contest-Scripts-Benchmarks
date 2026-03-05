@@ -8,28 +8,27 @@
 
 ```
 .
-├── Benchmarks/
-│   └── {design}/
-│       ├── pre_opt/
-│       │   └── {folder}/
-│       │       ├── node.csv
-│       │       └── nets.csv
-│       └── post_opt/
-│           └── {folder}/
-│               ├── node.csv
-│               └── nets.csv
-│
-└── scripts/
-    ├── {design}/
-    │   ├── eval.sh
-    │   ├── design_setup.tcl
-    │   ├── lib_setup.tcl
-    │   └── {folder}/
-    │     ├── evaluation.log
-    │     ├── metrics.csv
-    ├── evaluation.tcl
-    ├── parse_log.py
-    └── compute_score.py
+├── scripts/
+│   ├── compute_score.py
+│   ├── eval.sh
+│   ├── evaluation_baseline.tcl
+│   ├── evaluation.tcl
+│   ├── parse_log.py
+│   ├── README.md
+│   ├── aes_cipher_top/
+│   │   ├── design_setup.tcl
+│   │   ├── lib_setup.tcl
+│   │   └── OpenROAD_utils.tcl
+│   └── jpeg_encoder/
+│       ├── design_setup.tcl
+│       ├── lib_setup.tcl
+│       └── OpenROAD_utils.tcl
+└── benchmarks/
+    ├── README.md
+    ├── aes_cipher_top/
+    │   ├── ...
+    └── jpeg_encoder/
+        ├── ...
     
 ```
 
@@ -54,7 +53,7 @@ Or manually:
 export TOP_PROJ_DIR="/path/to/repo"
 export PROJ_DIR="${TOP_PROJ_DIR}/scripts"
 export DESIGN_NAME="jpeg_encoder"
-export FOLDER_NAME="TCP_350_UTIL_0.70"
+export FOLDER_NAME="<folder_name>"
 
 mkdir -p ${FOLDER_NAME}
 
@@ -71,18 +70,18 @@ Outputs written to `scripts/{design}/{folder_name}/`: `evaluation.log`, `metrics
 
 ```bash
 python3 scripts/compute_score.py \
-    --design_name jpeg_encoder \
-    --contest_post_dir Benchmarks/jpeg_encoder/post_opt/TCP_350_UTIL_0.70
+    --design_name <jpeg_encoder> \
+    --contest_post_dir /path/to/your/optimized/design/
 ```
 
-Score formula: `Sfinal = SPPA − PERC − R − Pdis − Poverflow`
+Score formula: `Sfinal = SPPA − PERC − R − cur_dis − Poverflow`
 
 | Term | Description |
 |------|-------------|
 | `SPPA` | TNS + dynamic power + leakage power improvement |
 | `PERC` | Slew, capacitance, fanout violation penalty |
 | `R` | Runtime penalty (tool + flow) |
-| `Pdis` | Average logic cell displacement penalty |
+| `cur_dis` | Average logic cell displacement compared to baseline penalty |
 | `Poverflow` | Global routing overflow penalty |
 
 ---

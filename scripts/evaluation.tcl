@@ -47,6 +47,9 @@ source $rc_file
 set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um -power mW
 set_units -power mW
 
+puts "report_design_area start"
+report_design_area 
+
 # ================== (2) Check placement legality ==================
 puts "### Check placement legality ###"
 set placement_legal [is_placement_legal]
@@ -79,6 +82,9 @@ if {[catch { global_route -skip_large_fanout_nets 300 -allow_congestion -congest
   }
 }
 
+puts "report_design_area after legalization"
+report_design_area
+
 # Estimate parasitics using global routing
 estimate_parasitics -global_routing
 
@@ -92,7 +98,7 @@ puts "placement_legal:        $placement_legal"
 puts [format "total_insts:            %d" $TOTAL_INSTS]
 report_units
 report_tns
-report_wns
+report_wns -digits 4
 report_power
 puts "report_tns"
 
@@ -108,6 +114,9 @@ foreach layer [$tech getLayers] {
     lappend layers $layer
   }
 }
+
+puts "report_design_area after global_route"
+report_design_area
 
 # set layers [lsort -unique $layers]
 set gird_x_count [llength [$gcellgrid getGridX]]
@@ -136,7 +145,9 @@ puts "End Global Routing Results Analysis ..."
 
 report_check_types -max_slew         -violators 
 report_check_types -max_capacitance  -violators 
-report_check_types -max_fanout       -violators 
+report_check_types -max_fanout       -violators
+puts "report_design_area end"
+report_design_area 
 
 
 puts "\[INFO\] Flow running time:   [expr {$end - $start}] second"

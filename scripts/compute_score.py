@@ -6,11 +6,11 @@ Compute MLCAD26 score from:
 
 Minimal usage:
   python3 scripts/compute_score.py \
-    --design_name jpeg_encoder \
-    --contest_post_dir Benchmarks/jpeg_encoder/TCP_350_UTIL_0.70/post_opt
+    --design_name aes_cipher_top \
+    --contest_post_dir Benchmarks/aes_cipher_top/post_opt
 
 Notes:
-- baseline post dir is auto-mapped to: Benchmarks/<design_name>_old/post_opt
+- baseline post dir is auto-mapped to: Benchmarks/<design_name>/post_opt
 - pre_opt is assumed identical for baseline and contestant:
   Benchmarks/<design_name>/<run_folder>/pre_opt
 - weights are hardcoded to 1.0
@@ -172,33 +172,18 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-
+    
+    contest_post_dir = args.contest_post_dir
     contest_input_dir = args.contest_post_dir
     if not contest_input_dir.is_absolute():
         contest_input_dir = (REPO_ROOT / contest_input_dir).resolve()
 
-    if contest_input_dir.name == "post_opt":
-        run_folder = contest_input_dir.parent.name
-        contest_post_dir = contest_input_dir
-    else:
-        run_folder = contest_input_dir.name
-        # support both layouts
-        contest_post_dir = contest_input_dir / "post_opt"
-        if not contest_post_dir.exists():
-            contest_post_dir = contest_input_dir
-
-    contest_pre_dir = REPO_ROOT / "Benchmarks" / args.design_name / "pre_opt" / run_folder
-    baseline_pre_dir = contest_pre_dir  # as requested
-
-    baseline_post_dir = REPO_ROOT / "Benchmarks" / args.design_name / "post_opt" / run_folder
-    if not baseline_post_dir.exists():
-        baseline_post_dir = REPO_ROOT / "Benchmarks" / args.design_name / "post_opt" / run_folder
+    
+    baseline_post_dir = REPO_ROOT / "benchmarks" / args.design_name
 
     contest_metrics_path = _pick_existing(
         [
             args.metrics,
-            REPO_ROOT / "scripts" / args.design_name / run_folder / "metrics.csv",
-            contest_input_dir / "metrics.csv",
             contest_post_dir / "metrics.csv",
         ],
         "contest metrics.csv",
@@ -207,14 +192,11 @@ def main() -> int:
     baseline_metrics_path = _pick_existing(
         [
             args.baseline_metrics,
-            REPO_ROOT / "Benchmarks" / args.design_name / "pre_opt" / run_folder / "metrics.csv",
-            REPO_ROOT / "Benchmarks" / args.design_name / "post_opt" / "metrics.csv",
+            REPO_ROOT / "benchmarks" / args.design_name / "metrics.csv",
         ],
         "baseline metrics.csv",
     )
 
-    if not contest_pre_dir.exists():
-        raise FileNotFoundError(f"Missing contestant pre_opt dir: {contest_pre_dir}")
     if not contest_post_dir.exists():
         raise FileNotFoundError(f"Missing contestant post_opt dir: {contest_post_dir}")
     if not baseline_post_dir.exists():
@@ -232,8 +214,8 @@ def main() -> int:
     if base.get("cap_unit") != cur.get("cap_unit"):
         print("WARNING: cap_unit differs between baseline and current", file=sys.stderr)
 
-    base_dis = calc_avg_displacement(baseline_pre_dir, baseline_post_dir, args.equiv_cells)
-    cur_dis = calc_avg_displacement(contest_pre_dir, contest_post_dir, args.equiv_cells)
+    #base_dis = calc_avg_displacement(baseline_pre_dir, baseline_post_dir, args.equiv_cells)
+    cur_dis = calc_avg_displacement(baseline_post_dir, contest_post_dir, args.equiv_cells)
 
     # Dynamic power = total - leakage
     base_dyn = _num(base.get("total_power")) - _num(base.get("leakage_power"))
@@ -254,21 +236,20 @@ def main() -> int:
     rflow = safe_norm_delta(cur.get("flow_runtime"), base.get("flow_runtime"))
     r = rtool + rflow
 
-    pdis = safe_norm_delta(cur_dis, base_dis)
+    #pdis = safe_norm_delta(cur_dis, base_dis)
 
     # Thresholds fixed to 0.0
     pmax = overflow_penalty(cur.get("max_gr_overflow"), 0.0)
     ptotal = overflow_penalty(cur.get("total_gr_overflow"), 0.0)
     poverflow = pmax + ptotal
 
-    sfinal = sppa - perc - r - pdis - poverflow
+    sfinal = sppa - perc - r - cur_dis - poverflow
+    #sfinal = sppa - perc - r - pdis - poverflow
 
     print("===== INPUT PATHS =====")
     print(f"contest_metrics    : {contest_metrics_path}")
     print(f"baseline_metrics   : {baseline_metrics_path}")
-    print(f"contest_pre_opt    : {contest_pre_dir}")
     print(f"contest_post_opt   : {contest_post_dir}")
-    print(f"baseline_pre_opt   : {baseline_pre_dir}")
     print(f"baseline_post_opt  : {baseline_post_dir}")
     print("=======================")
 
@@ -285,8 +266,8 @@ def main() -> int:
     print(f"{'Rflow':18s}: {rflow}")
     print(f"{'R':18s}: {r}")
     print(f"{'Davg':18s}: {cur_dis}")
-    print(f"{'Davg_baseline':18s}: {base_dis}")
-    print(f"{'Pdis':18s}: {pdis}")
+    #print(f"{'Davg_baseline':18s}: {base_dis}")
+    #print(f"{'Pdis':18s}: {pdis}")
     print(f"{'Pmax':18s}: {pmax}")
     print(f"{'Ptotal':18s}: {ptotal}")
     print(f"{'Poverflow':18s}: {poverflow}")

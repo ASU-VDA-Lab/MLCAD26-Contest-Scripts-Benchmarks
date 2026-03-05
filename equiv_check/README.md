@@ -23,28 +23,10 @@ After running placement or logic optimizations, this tool verifies that the opti
 ```
 .
 ├── equiv_check/
-│   └── asap7_equivalent_cell_list.csv  # Equivalent cell group definitions
-|   └── OpenROAD_utils.tcl  # OpenROAD Tcl utilities to export node/net data
-|   └── netlist_equiv_check.py              # Main equivalence checking script
-├── Benchmarks/
-│   ├── jpeg_encoder/
-|   |   ├── pre_opt/
-│   │   |   └── TCP_350_UTIL_0.70/
-│   │   |       ├── node.csv
-│   │   |       └── nets.csv
-|   |   └── pre_opt/
-│   │       └── TCP_350_UTIL_0.70/
-│   │           ├── node.csv
-│   │           └── nets.csv
-└── scripts/
-    └── {design}/
-        └── eval.sh
-        └── run_equiv_check.sh
-        └── design_setup.tcl
-        └── lib_setup.tcl
-    └── compute_score.py
-    └── evaluation.tcl
-    └── parse_log.py
+│   ├── asap7_equivalent_cell_list.csv
+│   ├── netlist_equiv_check.py
+│   ├── OpenROAD_utils.tcl
+│   └── README.md
 
 ```
 
@@ -54,7 +36,7 @@ After running placement or logic optimizations, this tool verifies that the opti
 
 - Python 3.x
 - OpenROAD (for exporting post-opt data via `OpenROAD_utils.tcl`)
-- Pre-extracted benchmark data under `./Benchmarks/`
+- Pre-extracted benchmark data under `./benchmarks/`
 - ASAP7 equivalent cell list at `./equiv_check/asap7_equivalent_cell_list.csv`
 
 ---
@@ -108,7 +90,7 @@ write_node_and_net_files "node.csv" "nets.csv"
 
 ```bash
 python3 netlist_equiv_check.py \
-    --pre_opt ./Benchmarks/jpeg_encoder/pre_opt/TCP_350_UTIL_0.70 \
+    --pre_opt ./benchmarks/jpeg_encoder/ \
     --post_opt /path/to/your/optimized/design/
 ```
 
@@ -116,8 +98,8 @@ python3 netlist_equiv_check.py \
 
 | Argument | Description | Default |
 |----------|-------------|---------|
-| `--pre_opt` | Path to pre-optimization directory containing `node.csv` and `nets.csv` | *(required)* |
-| `--post_opt` | Path to post-optimization directory containing `node.csv` and `nets.csv` | *(required)* |
+| `--pre_opt` | Path to benchmark directory containing `node.csv` and `nets.csv` | *(required)* |
+| `--post_opt` | Path to contest post-optimization directory containing `node.csv` and `nets.csv` | *(required)* |
 | `--equiv_cells` | Path to equivalent cells CSV file | `./equiv_check/asap7_equivalent_cell_list.csv` |
 
 ---

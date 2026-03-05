@@ -7,8 +7,8 @@ set design_name     "$::env(DESIGN_NAME)"
 set crfile          "$::env(CONGESTION_REPORT)"
 set folder          "$::env(FOLDER_NAME)"
 
-set lib_setup_file    "lib_setup.tcl"
-set design_setup_file "design_setup.tcl"
+set lib_setup_file    "${design_name}/lib_setup.tcl"
+set design_setup_file "${design_name}/design_setup.tcl"
 
 set start [clock seconds]
 source $lib_setup_file
@@ -27,11 +27,17 @@ proc is_placement_legal {} {
 }
 
 # ================== (1) read tech, libs, DEF, netlist, link ==================
-foreach lef_file ${lefs}    { read_lef     $lef_file }
-foreach lib_file ${libbest} { read_liberty $lib_file }
+# foreach lef_file ${lefs}    { read_lef     $lef_file }
+# foreach lib_file ${libbest} { read_liberty $lib_file }
 
 read_def      $def_file
+
+puts $def_file 
+
 read_verilog  $verilog_netlist
+
+ 
+puts $verilog_netlist
 
 
 read_sdc $sdc_file
@@ -47,11 +53,21 @@ estimate_parasitics -placement
 set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um
 set_units -power mW
 
+puts "report_design_area start"
+report_design_area 
+
 set start_rsz [clock seconds]
 puts "\[INFO\] Start OpenROAD RSZ ..."
 repair_design
 
-repair_timing -setup -skip_gate_cloning -skip_pin_swap 
+puts "report_design_area after repair_design"
+report_design_area 
+
+repair_timing -setup -verbose
+puts "report_design_area after repair_timing"
+report_design_area  
+
+#repair_timing -setup -skip_gate_cloning -skip_pin_swap
 #repair_timing -sequence "sizeup,buffer,split"
 
 set end_rsz [clock seconds]
@@ -78,6 +94,9 @@ if {$placement_legal} {
   }
 }
 
+puts "report_design_area after legalization"
+report_design_area 
+
 # Write out baseline results after detailed placement
 write_def ${folder}/${design_name}_baseline.def
 write_verilog ${folder}/${design_name}_baseline.v
@@ -90,6 +109,8 @@ if {[info exists route_clock_layers]}  { set clk_layers $route_clock_layers }  e
 
 set_routing_layers -signal $sig_layers -clock $clk_layers
 #set_global_routing_layer_adjustment * 0.5
+
+
 
 puts "### Global routing (first attempt) ###"
 set placement_legal 1
@@ -106,6 +127,9 @@ if {[catch { global_route -skip_large_fanout_nets 300 -allow_congestion -congest
   }
 }
 
+puts "report_design_area after global_route"
+report_design_area
+
 # Estimate parasitics using global routing
 estimate_parasitics -global_routing
 
@@ -119,7 +143,7 @@ puts "placement_legal:        $placement_legal"
 puts [format "total_insts:            %d" $TOTAL_INSTS]
 report_units
 report_tns
-report_wns
+report_wns -digits 4
 report_power
 
 
@@ -164,7 +188,10 @@ puts "End Global Routing Results Analysis ..."
 
 report_check_types -max_slew         -violators 
 report_check_types -max_capacitance  -violators 
-report_check_types -max_fanout       -violators 
+report_check_types -max_fanout       -violators
+
+puts "report_design_area end"
+report_design_area 
 
 puts "\[INFO\] OpenROAD RSZ running time:   [expr {$end_rsz - $start_rsz}] second"
 puts "\[INFO\] Flow running time:   [expr {$end_flow - $start_flow + $end_setting - $start}] second"

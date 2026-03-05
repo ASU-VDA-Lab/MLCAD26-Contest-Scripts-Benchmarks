@@ -1,1 +1,33 @@
-# This is placeholder for Benchmarks
+# Benchmarks
+
+This directory contains contest benchmarks. Each benchmark folder has the following folders:
+
+* **EDA_files**: This folder has all the provided EDA files of respective design.
+   * `<design_name>.v`: This is the legally placed netlist generated using ASAP7 library.
+   * `<design_name>.def`: This is the given def for the design.
+   * `<design_name>.sdc`: This is the given SDC constraint file for the design.
+   * `metrics.csv`: Contains design metrics for the respective benchmark.
+   * `nets.csv`: Contains net-level information for the design.
+   * `node.csv`: Contains node-level information for the design.
+
+---
+
+## Directory Structure
+
+```
+benchmarks/
+├── aes_cipher_top/
+│   ├── aes_cipher_top.v
+│   ├── aes_cipher_top.def
+│   ├── aes_cipher_top.sdc
+│   ├── metrics.csv
+│   ├── nets.csv
+│   └── node.csv
+└── jpeg_encoder/
+    ├── jpeg_encoder.v
+    ├── jpeg_encoder.def
+    ├── jpeg_encoder.sdc
+    ├── metrics.csv
+    ├── nets.csv
+    └── node.csv
+```

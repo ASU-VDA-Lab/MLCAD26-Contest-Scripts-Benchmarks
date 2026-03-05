@@ -1,11 +1,5 @@
-# set libdir "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lib/NLDM"
-# set lefdir "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lef"
-
-# set libworst "
-# set libbest "
-
 set tech_lef "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lef/asap7_tech_*.lef"       ;# tech LEF (glob ok)
-set std_lef  "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lef/asap7sc7p5t_*.lef"       ;# stdcell LEF (glob ok)
+set std_lef  "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lef/asap7sc7p5t*.lef"       ;# stdcell LEF (glob ok)
 set lib_dir  "/root/MLCAD26-Contest-Scripts-Benchmarks/asap7/lib/NLDM"
 
 # Load tech + stdcell LEFs
@@ -14,7 +8,7 @@ foreach lef [concat [glob -nocomplain $tech_lef] [glob -nocomplain $std_lef]] {
 }
 
 # Clean & load Liberty files
-set lib_files [concat [glob -nocomplain $lib_dir/*.lib] [glob -nocomplain $lib_dir/*.lib.gz]]
+set lib_files [concat [glob -nocomplain $lib_dir/*FF*.lib] [glob -nocomplain $lib_dir/*FF*.lib.gz]]
 if {[llength $lib_files] == 0} {
   puts "ERROR: No .lib in $lib_dir (OpenROAD needs .lib, not .db)"; exit 1
 }
