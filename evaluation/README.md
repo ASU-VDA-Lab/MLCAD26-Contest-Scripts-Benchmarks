@@ -19,22 +19,25 @@
 │   │   ├── design_setup.tcl
 │   │   ├── lib_setup.tcl
 │   │   └── OpenROAD_utils.tcl
-│   └── jpeg_encoder/
-│       ├── design_setup.tcl
-│       ├── lib_setup.tcl
-│       └── OpenROAD_utils.tcl
-└── benchmarks/
-    ├── README.md
-    ├── aes_cipher_top/
-    │   ├── ...
-    └── jpeg_encoder/
-        ├── ...
+│   ├── jpeg_encoder/
+│   │   ├── design_setup.tcl
+│   │   ├── lib_setup.tcl
+│   │   └── OpenROAD_utils.tcl
+│   └── validity_check/
+│       ├── asap7_equivalent_cell_list.csv
+│       ├── netlist_validity_check.py
+│       ├── OpenROAD_utils.tcl
+│       └── README.md
+
     
 ```
 
 ---
 
 ## Usage
+
+### Step 0 — Check netlist validity
+Before running the evaluation flow, ensure your optimized netlist is valid using the `validity_check` tool. Follow the instructions in `validity_check/README.md` to verify that your post-optimization netlist meets the validity constraints.
 
 ### Step 1 — Update design files
 

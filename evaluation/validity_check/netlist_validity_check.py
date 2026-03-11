@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Netlist Equivalence Checker
+Netlist legality Checker
 
 Validates post-optimization netlists against pre-optimization netlists.
-Checks: instance presence, buffer/inverter paths, physical/macro/IO locations.
+Checks: physical/macro/IO locations.
 """
 
 import argparse
@@ -457,44 +457,14 @@ def main():
 
     results = []
 
-    # Check 1: Instance presence
-    print("\nCheck 1: Instance Presence...")
-    t0 = time.time()
-    passed, violations = check_instance_presence(
-        pre_nodes, post_nodes, equiv_groups, buf_masters, inv_masters
-    )
-    results.append(("Check 1: Instance Presence", passed, violations))
-    print_result("Check 1: Instance Presence", passed, violations)
-    print(f"  Time: {time.time() - t0:.2f}s")
-
-    # Build graph
-    print("\nBuilding graph...")
-    t0 = time.time()
-    graph_data = build_graph(
-        post_nets, post_nodes, pre_nodes, buf_masters, inv_masters
-    )
-    inst_reg, inst_matched, buf_ids, inv_ids, net_edges, int_edges = graph_data
-    print(f"  Graph time: {time.time() - t0:.2f}s")
-
-    # Check 2: Buffer/inverter paths
-    print("\nCheck 2: Buffer/Inverter Paths...")
-    t0 = time.time()
-    passed, violations = check_buffer_inverter_paths(
-        pre_nets, post_nets, inst_reg, inst_matched,
-        buf_ids, inv_ids, net_edges, int_edges
-    )
-    results.append(("Check 2: Buffer/Inverter Paths", passed, violations))
-    print_result("Check 2: Buffer/Inverter Paths", passed, violations)
-    print(f"  Time: {time.time() - t0:.2f}s")
-
-    # Check 3: Physical cell locations
-    print("\nCheck 3: Physical Cell Locations...")
+    # Check 1: Physical cell locations
+    print("\nCheck 1: Physical Cell Locations...")
     t0 = time.time()
     passed, violations = check_locations(
         pre_nodes, post_nodes, "Inst", equiv_groups
     )
-    results.append(("Check 3: Physical Cells", passed, violations))
-    print_result("Check 3: Physical Cells", passed, violations)
+    results.append(("Check 1: Physical Cells", passed, violations))
+    print_result("Check 1: Physical Cells", passed, violations)
     print(f"  Time: {time.time() - t0:.2f}s")
 
     # Logic cell movement statistics
@@ -507,20 +477,20 @@ def main():
     print(f"  Average movement: {avg_move:.2f} units")
     print(f"  Max movement: {max_move:.2f} units")
 
-    # Check 4: Macro locations
-    print("\nCheck 4: Macro Locations...")
+    # Check 2: Macro locations
+    print("\nCheck 2: Macro Locations...")
     t0 = time.time()
     passed, violations = check_locations(pre_nodes, post_nodes, "Macro")
-    results.append(("Check 4: Macros", passed, violations))
-    print_result("Check 4: Macros", passed, violations)
+    results.append(("Check 2: Macros", passed, violations))
+    print_result("Check 2: Macros", passed, violations)
     print(f"  Time: {time.time() - t0:.2f}s")
 
-    # Check 5: IO locations
-    print("\nCheck 5: I/O Locations...")
+    # Check 3: IO locations
+    print("\nCheck 3: I/O Locations...")
     t0 = time.time()
     passed, violations = check_locations(pre_nodes, post_nodes, "IO")
-    results.append(("Check 5: I/O", passed, violations))
-    print_result("Check 5: I/O", passed, violations)
+    results.append(("Check 3: I/O", passed, violations))
+    print_result("Check 3: I/O", passed, violations)
     print(f"  Time: {time.time() - t0:.2f}s")
 
     # Summary
@@ -528,7 +498,7 @@ def main():
     passed_count = sum(1 for _, p, _ in results if p)
     print(f"SUMMARY: {passed_count}/{len(results)} checks passed")
     print(f"TOTAL TIME: {time.time() - t_start:.2f}s")
-    result_str = "EQUIVALENT" if passed_count == len(results) else "NOT EQUIV"
+    result_str = "VALID" if passed_count == len(results) else "NOT VALID"
     print(f"RESULT: {result_str}")
 
     return 0 if passed_count == len(results) else 1

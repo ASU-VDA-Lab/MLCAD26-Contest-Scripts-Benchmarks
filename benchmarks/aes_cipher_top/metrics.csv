@@ -1,2 +1,0 @@
-design,placement_legal,total_insts,wns,tns,time_unit,slew_over_sum,slew_over_count,cap_over_sum,cap_over_count,cap_unit,fanout_over_sum,fanout_over_count,leakage_power,total_power,power_unit,max_gr_overflow,total_gr_overflow,legal_fail_summary,tool_runtime,flow_runtime
-aes_cipher_top,1,20098,-0.09,-12.43,ns,0.0,0,0.0,0,pF,0.0,0,96300000.0,434000000000.0,pw,0.0,0.0,DPL-0005: Overlap check failed=69; DPL-0006: Site aligned check failed=76; DPL-0011: Padding check failed=69; DPL-0033: detailed placement checks failed,27.0,8.0

@@ -24,11 +24,17 @@ Please use the copy of OpenROAD provided in this directory. We will use this sam
 
 
 ```
-git clone --recursive https://github.com/ASU-VDA-Lab/MLCAD26-Contest-Scripts-Benchmarks.git
+git clone https://github.com/ASU-VDA-Lab/MLCAD26-Contest-Scripts-Benchmarks.git
 cd MLCAD26-Contest-Scripts-Benchmarks
+git submodule update --init --recursive
 cd OpenROAD 
 sudo ./etc/DependencyInstaller.sh -all
 ./etc/Build.sh
 
 ```
+## Benchmark Statistics
 
+| Design Name | Num. of instances | WNS(ns) | TNS(ns) | Leakage power(uW) | Total power(uW) | Slew violation count | Capacitance violation count | Fanout violation count |
+|-------------|--------------------|--------------|--------------|-------------------|-------------------|----------------------|-----------------------------|------------------------|
+| aes_cipher_top | 20098 | -0.09 | -12.43 | 96.30 | 434000.0 | 0 | 0 | 0 |
+| jpeg_encoder | 64424 | -0.15 | -66.5 | 162 | 293000.0 | 0 | 0 | 0 |
