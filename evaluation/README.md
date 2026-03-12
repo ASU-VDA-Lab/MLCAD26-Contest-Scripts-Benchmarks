@@ -25,7 +25,7 @@
 │   │   └── OpenROAD_utils.tcl
 │   └── validity_check/
 │       ├── asap7_equivalent_cell_list.csv
-│       ├── netlist_validity_check.py
+│       ├── def_validity_check.py
 │       ├── OpenROAD_utils.tcl
 │       └── README.md
 

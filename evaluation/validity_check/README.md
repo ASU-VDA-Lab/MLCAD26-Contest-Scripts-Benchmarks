@@ -1,8 +1,8 @@
-# Netlist validity checker
+# DEF validity checker
 
 > **Based on the official equivalence checker from the [ISPD 2026 Contest](https://github.com/ABKGroup/ISPD26-Contest/tree/main/equiv_check) by the [ABKGroup](https://github.com/ABKGroup) at UC San Diego.**
 
-Validates legality between pre-optimization and post-optimization netlists for ASAP7 designs using OpenROAD.
+Validates legality for cell movements between pre-optimization and post-optimization netlists for ASAP7 designs using OpenROAD.
 
 ---
 
@@ -22,7 +22,7 @@ After running placement or logic optimizations, this tool verifies that the opti
 .
 ├── validity_check/
 │   ├── asap7_equivalent_cell_list.csv
-│   ├── netlist_validity_check.py
+│   ├── def_validity_check.py
 │   ├── OpenROAD_utils.tcl
 │   └── README.md
 
@@ -87,7 +87,7 @@ write_node_and_net_files "node.csv" "nets.csv"
 ### Step 2 — Run Equivalence Check
 
 ```bash
-python3 netlist_validity_check.py \
+python3 def_validity_check.py \
     --pre_opt ./benchmarks/jpeg_encoder/ \
     --post_opt /path/to/your/optimized/design/
 ```
