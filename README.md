@@ -38,3 +38,7 @@ sudo ./etc/DependencyInstaller.sh -all
 |-------------|--------------------|--------------|--------------|-------------------|-------------------|----------------------|-----------------------------|------------------------|
 | aes_cipher_top | 20098 | -0.09 | -12.43 | 96.30 | 434000.0 | 0 | 0 | 0 |
 | jpeg_encoder | 64424 | -0.15 | -66.5 | 162 | 293000.0 | 0 | 0 | 0 |
+
+## Questions 
+
+Questions related to the contest can be emailed to [mlcad2026-contest@googlegroups.com](mlcad2026-contest@googlegroups.com) or can be filed as issues in this GitHub repo [here](https://github.com/ASU-VDA-Lab/MLCAD26-Contest-Scripts-Benchmarks/issues)
