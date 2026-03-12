@@ -36,7 +36,7 @@
 
 ## Usage
 
-### Step 0 — Check netlist validity
+### Step 0 — Check DEF validity
 Before running the evaluation flow, ensure your optimized netlist is valid using the `validity_check` tool. Follow the instructions in `validity_check/README.md` to verify that your post-optimization netlist meets the validity constraints.
 
 ### Step 1 — Update design files
