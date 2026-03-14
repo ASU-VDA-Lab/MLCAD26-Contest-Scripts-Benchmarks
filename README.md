@@ -28,6 +28,7 @@ git clone https://github.com/ASU-VDA-Lab/MLCAD26-Contest-Scripts-Benchmarks.git
 cd MLCAD26-Contest-Scripts-Benchmarks
 git submodule update --init --recursive
 cd OpenROAD 
+git checkout MLCAD26
 sudo ./etc/DependencyInstaller.sh -all
 ./etc/Build.sh
 
