@@ -18,7 +18,7 @@ Prior timing-optimization contests have largely relied on fixed heuristics appli
 
 ## Install and Build OpenROAD
 
-### Build locally
+### Option 1: Build locally
 
 Please use the copy of OpenROAD provided in this directory. We will use this same copy of OpenROAD to evaluate participant's solutions. We have slightly changed the source code in this version of OpenROAD to check for logic equivalence, and participants are recommened to use this copy of OpenROAD to avoid any inconsistencies in their own evaluation. 
 
@@ -33,6 +33,20 @@ sudo ./etc/DependencyInstaller.sh -all
 ./etc/Build.sh
 
 ```
+### Option 2: Docker Image 
+
+To develop solution using a pre-built docker image that has this repo pre-installed along with OpenROAD pre-built, please use the following commands
+
+```bash 
+docker pull tsjafri/mlcad2026:2026-03-14
+docker run -it --name mlcad2026 --hostname MLCAD2026 tsjafri/mlcad2026:2026-03-14 /bin/bash -c "cd && cd MLCAD26-Contest-Scripts-Benchmarks/ && git pull && exec bash"
+
+docker run -it --name mlcad2026 --hostname MLCAD2026 tsjafri/mlcad2026:2026-03-14 /bin/bash
+
+```
+
+The above commands will setup a Ubuntu-24.04 docker container with this repo and OpenROAD pre-installed and pre-built. 
+
 ## Benchmark Statistics
 
 | Design Name | Num. of instances | WNS(ns) | TNS(ns) | Leakage power(uW) | Total power(uW) | Slew violation count | Capacitance violation count | Fanout violation count |
