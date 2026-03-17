@@ -17,7 +17,11 @@ benchmarks/
 │   ├── aes_cipher_top.def
 │   ├── aes_cipher_top.sdc
 └── jpeg_encoder/
-    ├── jpeg_encoder.v
-    ├── jpeg_encoder.def
-    ├── jpeg_encoder.sdc
+│   ├── jpeg_encoder.v
+│   ├── jpeg_encoder.def
+│   ├── jpeg_encoder.sdc
+└── ariane/
+    ├── ariane.v
+    ├── ariane.def
+    ├── ariane.sdc
 ```

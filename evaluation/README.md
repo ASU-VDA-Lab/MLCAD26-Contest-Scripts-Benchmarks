@@ -21,6 +21,9 @@
 │   ├── jpeg_encoder/
 │   │   ├── design_setup.tcl
 │   │   └── lib_setup.tcl
+│   ├── ariane/
+│   │   ├── design_setup.tcl
+│   │   └── lib_setup.tcl
 │   └── validity_check/
 │       ├── asap7_equivalent_cell_list.csv
 │       ├── def_validity_check.py
