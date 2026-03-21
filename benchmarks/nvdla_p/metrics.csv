@@ -1,0 +1,2 @@
+design,placement_legal,total_insts,wns,tns,time_unit,slew_over_sum,slew_over_count,cap_over_sum,cap_over_count,cap_unit,fanout_over_sum,fanout_over_count,leakage_power,total_power,power_unit,max_gr_overflow,total_gr_overflow,legal_fail_summary,tool_runtime,flow_runtime
+NV_NVDLA_partition_p,,106906,-0.3001,-224.94,ns,0.0,0,0.0,0,pF,0.0,0,296000000.0,40000000000.0,pw,0.0,0.0,,,20.0
