@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 """
-Compute MLCAD26 score from:
-- parse_log.py metrics.csv
-- def_validity_check.py displacement (node.csv)
-
 Minimal usage:
   python3 evaluation/compute_score.py \
     --design_name aes_cipher_top \
     --contest_post_dir benchmarks/aes_cipher_top/
-
-Notes:
-- baseline dir is auto-mapped to: benchmarks/<design_name>/
-- weights are hardcoded to 1.0
 """
 
 from __future__ import annotations

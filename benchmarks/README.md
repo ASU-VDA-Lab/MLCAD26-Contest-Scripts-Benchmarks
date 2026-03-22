@@ -27,12 +27,19 @@ benchmarks/
 │   ├── node.csv
 │   ├── nets.csv
 │   ├── metrics.csv
-└── ariane/
-    ├── ariane.v
-    ├── ariane.def
-    ├── ariane.sdc
+├── ariane/
+│   ├── ariane.v
+│   ├── ariane.def
+│   ├── ariane.sdc
+│   ├── node.csv
+│   ├── nets.csv
+│   ├── metrics.csv
+└── nvdla_p/
+    ├── nvdla_p.v
+    ├── nvdla_p.def
+    ├── nvdla_p.sdc
     ├── node.csv
     ├── nets.csv
-    ├── metrics.csv
+    └── metrics.csv
 
 ```

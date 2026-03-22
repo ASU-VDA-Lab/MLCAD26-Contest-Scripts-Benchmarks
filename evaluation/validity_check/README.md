@@ -87,17 +87,17 @@ net_name,driver_inst pin_name,sink1_inst pin_name,sink2_inst pin_name,...
 source /root/MLCAD26-Contest-Scripts-Benchmarks/evaluation/validity_check/OpenROAD_utils.tcl
 
 # Load the benchmark setup files
-source evaluation/<benchmark>/libsetup.tcl 
+source evaluation/<benchmark>/lib_setup.tcl 
 
 # Load your **Optimized** DEF and verilog netlists
-read_def     <path/to/your/optimized/DEF/file/for/the/specific/benchmakr>
+read_def     <path/to/your/optimized/DEF/file/for/the/specific/benchmark>
 read_verilog <path/to/your/optimized/verilog/netlist/file/for/the/specific/benchmark>
 read_sdc     <path/to/the/benchmarks/sdc/file> # Read this file from the benchmarks/ folder.
  
 write_node_and_net_files "node.csv" "nets.csv"
 ```
 
-### Step 2 — Run Equivalence Check
+### Step 2 — Run Validity Check
 
 Please note that `nodes.csv` and `nets.csv` files must be in the same folder.
 
@@ -105,15 +105,12 @@ Please note that `nodes.csv` and `nets.csv` files must be in the same folder.
 python3 def_validity_check.py \
     --pre_opt <path/to/benchmark> \
     --post_opt </path/to/your/optimized/design/folder/containing/nodes.csv/and/nets.csv>
-```
+``` 
 
-#### Optional Arguments
-
-| Argument        | Description                                                                      | Default                                                      |
-| --------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| `--pre_opt`     | Path to benchmark directory containing `node.csv` and `nets.csv`                 | *(required)*                                                 |
-| `--post_opt`    | Path to contest post-optimization directory containing `node.csv` and `nets.csv` | *(required)*                                                 |
-| `--equiv_cells` | Path to equivalent cells CSV file                                                | `./evaluation/validity_check/asap7_equivalent_cell_list.csv` |
+| Argument     | Description                                                                      | Default      |
+| ------------ | -------------------------------------------------------------------------------- | ------------ |
+| `--pre_opt`  | Path to benchmark directory containing `node.csv` and `nets.csv`                 | *(required)* |
+| `--post_opt` | Path to contest post-optimization directory containing `node.csv` and `nets.csv` | *(required)* |
 
 ---
 
