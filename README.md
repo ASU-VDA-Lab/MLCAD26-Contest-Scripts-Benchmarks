@@ -50,11 +50,13 @@ The above commands will setup a Ubuntu-24.04 docker container with this repo and
 
 | Design Name    | Num. of instances | WNS(ns) | TNS(ns)  | Leakage power(uW) | Total power(uW) | Slew violation count | Capacitance violation count | Fanout violation count |
 | -------------- | ----------------- | ------- | -------- | ----------------- | --------------- | -------------------- | --------------------------- | ---------------------- |
-| aes_cipher_top | 20098             | -0.09   | -12.43   | 96.30             | 434000.0        | 0                    | 0                           | 0                      |
-| jpeg_encoder   | 64424             | -0.15   | -66.5    | 162               | 293000.0        | 0                    | 0                           | 0                      |
-| ariane         | 210455            | -0.9413 | -7568.43 | 17900             | 662000          | 1508                 | 0                           | 0                      |
-| nvdla_p        | 106906            | -0.3001 | -224.94  | 296               | 40000           | 0                    | 0                           | 0                      |
+| aes_cipher_top | 20097             | -0.0853 | -12.44   | 96.30             | 432000.0        | 0                    | 0                           | 0                      |
+| jpeg_encoder   | 64602             | -0.0908 | -48.77   | 174               | 294000.0        | 0                    | 0                           | 0                      |
+| ariane         | 210455            | -0.9413 | -7568.43 | 17900             | 658000          | 1508                 | 0                           | 0                      |
+| nvdla_p        | 106994            | -0.2973 | -198.18  | 306               | 40000           | 0                    | 0                           | 0                      |
 | nvdla_c        | 312651            | -0.2168 | -76.81   | 17300             | 601000          | 438                  | 0                           | 0                      |
+
+
 
 
 ## Questions 
