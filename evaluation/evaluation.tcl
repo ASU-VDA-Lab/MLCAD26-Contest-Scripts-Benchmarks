@@ -43,6 +43,8 @@ read_sdc $sdc_file
 set_ideal_network [all_clocks]
 
 source $rc_file
+estimate_parasitics -placement
+
 # Keep units exactly as requested
 set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um -power mW
 set_units -power mW
