@@ -118,22 +118,25 @@ python3 def_validity_check.py \
 
 ```
 Loading data...
-Pre-opt: 15234 nodes, 14892 nets
-Post-opt: 15456 nodes, 15102 nets
-Equivalent cell groups: 89
-Buffer masters: 48
-Inverter masters: 60
+Pre-opt: 20419 nodes, 20003 nets
+Post-opt: 20523 nodes, 20147 nets
 
-Running Check 1: Physical Cell Locations...
+Check 1: Physical Cell Locations...
 === CHECK 1: Physical Cell Locations ===
 PASS: 0 violations
 
-Running Check 2: Macro Locations...
+=== Logic Cell Movement Statistics ===
+  Matched logic cells: 19466
+  Number of cells that moved: 0
+  Average movement: 0.00 units
+  Max movement: 0.00 units
+
+Check 2: Macro Locations...
 === CHECK 2: Macro Locations ===
 PASS: 0 violations
 
-Running Check 3: I/O Port Locations...
-=== CHECK 3: I/O Port Locations ===
+Check 3: I/O Locations...
+=== CHECK 3: I/O Locations ===
 PASS: 0 violations
 
 ==================================================
