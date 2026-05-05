@@ -119,7 +119,7 @@ def calc_avg_displacement(pre_dir: Path, post_dir: Path, equiv_cells: Path) -> f
 
     pre_nodes = load_nodes(pre_node.as_posix())
     post_nodes = load_nodes(post_node.as_posix())
-    equiv_groups, _, _ = load_equiv_cells(equiv_cells.as_posix())
+    equiv_groups = load_equiv_cells(equiv_cells.as_posix())
     avg_move, _count, _moved, _max = calculate_logic_cell_movement(
         pre_nodes, post_nodes, equiv_groups
     )
