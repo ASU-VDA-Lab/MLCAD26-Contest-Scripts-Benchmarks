@@ -24,13 +24,13 @@ from validity_check.def_validity_check import (  # noqa: E402
 )
 
 # ─── Score weights ───────────────────────────────────────────────────────────
-W_TNS            = 15.0
-W_DPOWER         = 60.0
+W_TNS            = 30.0
+W_DPOWER         = 50.0
 W_LPOWER         = 50.0
 W_SLEW           = 0.001
 W_CAP            = 10.0
 W_FANOUT         = 1.0
-W_TOOL_RUNTIME   = 0.5
+W_TOOL_RUNTIME   = 1.0
 W_FLOW_RUNTIME   = 1.0
 W_DIS            = 0.5
 W_MAX_OVERFLOW   = 1.0
