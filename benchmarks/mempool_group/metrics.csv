@@ -1,0 +1,2 @@
+design,placement_legal,total_insts,wns,tns,time_unit,slew_over_sum,slew_over_count,cap_over_sum,cap_over_count,cap_unit,fanout_over_sum,fanout_over_count,leakage_power,total_power,power_unit,max_gr_overflow,total_gr_overflow,legal_fail_summary,tool_runtime,flow_runtime
+mempool_group,1,205063,-0.5996,-3680.33,ns,746.2299999999998,818,0.0,0,pF,0.0,0,3070000000.0,279000000000.0,pw,0.0,0.0,DPL-0005: Overlap check failed=58; DPL-0006: Site aligned check failed=65; DPL-0011: Padding check failed=58; DPL-0033: detailed placement checks failed,1415.0,49.0

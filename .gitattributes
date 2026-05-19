@@ -1,1 +1,4 @@
 benchmarks/nvdla_c/nvdla_c.def filter=lfs diff=lfs merge=lfs -text
+benchmarks/mempool_group/mempool_group.def filter=lfs diff=lfs merge=lfs -text
+benchmarks/mempool_group/mempool_group.v filter=lfs diff=lfs merge=lfs -text
+benchmarks/mempool_group/nets.csv filter=lfs diff=lfs merge=lfs -text
