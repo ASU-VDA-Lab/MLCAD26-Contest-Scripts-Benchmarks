@@ -14,7 +14,7 @@ Please note that is a separate docker container aside from the main MLCAD 2026 c
 ```bash
 
 docker pull tsjafri/mlcad2026_lec_check:05-23-2026 
-docker run -it --name mlcad2026_lec --hostname MLCAD2026_LEC tsjafri/mlcad2026_lec_check:05-21-2026 /bin/bash -c "mkdir -p /app/netlists && exec /bin/bash"
+docker run -it --name mlcad2026_lec --hostname MLCAD2026_LEC tsjafri/mlcad2026_lec_check:05-23-2026 /bin/bash -c "mkdir -p /app/netlists && exec /bin/bash"
 
 ```
 
